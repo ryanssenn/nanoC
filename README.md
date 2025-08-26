@@ -1,23 +1,46 @@
 ## C compiler
 
-This is a compiler for a subset of C I built from scratch, targets x86 assembly.
+This is a compiler for a subset of C, built from scratch. It translates C code into x86 assembly, unfortunately only runs MacOS Intel cpu for now.
 
-### Supports:
+A compiler works in stages: it takes human-readable code, checks that it’s valid, and turns it into low-level instructions the CPU understands. This project implements those steps manually, without relying on existing compiler frameworks.
 
--variables, functions, structs, pointers, arrays  
--control flow (if, while, break, continue)  
--expressions, function calls, returns  
--binary/unary operations (arithmetic, relational, logical)  
--standard types (int, char, void)
+This project is educational, built to learn how programming languages work, mostly as a toy compiler project. While functional, there's room for optimizations, particularly in register allocation :)
 
-### Implements:
-Lexing, recursive descent parsing, name/type analysis, register allocation and x86 assembly
+### Supported C Features
 
-### Future goals:
--(Current) Control flow graph, liveness analysis and optimized register allocation  
--Support dynamic memory with malloc/free  
--Support basic OOP
+-Variables, functions, structs, pointers, and arrays  
+-Control flow: `if`, `while`, `break`, `continue`  
+-Expressions, function calls, and returns  
+-Arithmetic, relational, and logical operations (unary and binary)  
+-Basic types: `int`, `char`, and `void`
 
+### Implemented Compiler Stages
+
+**Lexing** – reads the raw source text and splits it into tokens (keywords, identifiers, symbols).  
+ `int x = 5;` → `int`, `x`, `=`, `5`, `;`
+
+**Parsing** – recursive descent parser builds an abstract syntax tree (AST) that represents the program’s structure.  
+ `x = y + 1;` becomes a tree where the root is `=`, with `x` on the left and `+` as the right child.
+
+**Semantic Analysis** – checks that names and types are valid before code generation.  
+ Catches errors like using an undeclared variable or assigning a `char*` to an `int`.
+
+**Code Generation** – walks the AST, assigns registers, and emits x86-64 assembly instructions.  
+ `x = y + 1;` → `mov rax, [y]`, `add rax, 1`, `mov [x], rax`
+
+### Testing
+Each stage of the compiler is tested on its own and as part of the full pipeline.
+Lexer tests check that text is split correctly into tokens. Parser tests confirm that valid code produces the right AST and invalid syntax fails cleanly. Semantic tests cover all type and scope rules, using both valid and intentionally broken programs to confirm errors are caught. Code generation is tested by compiling small programs, assembling them, running them, and checking their actual output matches the expected result.
+
+You can run the tests using in the /test directory by running
+
+     ./tester.sh
+
+The test script runs the compiler on each test case (60+) and, for code-generation tests, it assembles the produced assembly with nasm, links it with ld, then runs the resulting x86_64 binary through Rosetta on Apple Silicon
+
+The expected result of each test is displayed in a comment at the top of the file and parsed through grep.
+
+<img src="./test.png" width="30%" height="30%">
 
 ### Running compiler:
 
@@ -32,8 +55,11 @@ Options:
 
 ### Example fibonacci program:
 
+Note: You need to have the print.c utilities file in your include path for the printing utilities to be available.
+The easiest way is to have the `std/print.c` folder in the same path as the compiler
+
 ```
-#include <print>
+#include <std/print.c>
 
 int fibonnaci(int n){
     if (n == 0){
@@ -52,6 +78,8 @@ int main(){
 ```
 
 AST:
+
+    ./compiler fib.c -ast
 
 ```
 Program (
