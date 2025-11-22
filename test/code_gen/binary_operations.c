@@ -7,7 +7,7 @@
 111110
 1001
 */
-#include <print>
+#include <print.c>
 
 int main(){
 

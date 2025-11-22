@@ -23,8 +23,7 @@ std::shared_ptr<Program> Parser::program(){
 }
 
 std::vector<std::shared_ptr<Decl>> Parser::include(){
-    std::string f = consume(TT::INCLUDE, "Expected #include directive")->value;
-    std::string path = "../std/" + f + ".c";
+    std::string path = consume(TT::INCLUDE, "Expected #include directive")->value;
     std::ifstream file(path);
     std::string content;
 
@@ -48,6 +47,7 @@ std::vector<std::shared_ptr<Decl>> Parser::include(){
 
     }
     else{
+        std::cerr << "Error: the file named in your #include could not be found." << std::endl;
         throw parsing_exception("Invalid include path", peek(0));
     }
 }

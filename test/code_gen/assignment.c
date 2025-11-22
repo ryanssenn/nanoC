@@ -1,7 +1,7 @@
 /*
 1234a
 */
-#include <print>
+#include <print.c>
 
 int main(){
     int a;

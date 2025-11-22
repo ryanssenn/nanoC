@@ -1,7 +1,7 @@
 /*
 13579
 */
-#include <print>
+#include <print.c>
 
 
 int main(){

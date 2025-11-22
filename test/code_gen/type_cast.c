@@ -2,7 +2,7 @@
 97100
 */
 
-#include <print>
+#include <print.c>
 
 int main() {
     char c;

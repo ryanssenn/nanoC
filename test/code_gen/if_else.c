@@ -1,7 +1,7 @@
 /*
 YN
 */
-#include <print>
+#include <print.c>
 
 int main(){
 

@@ -2,7 +2,7 @@
 1234abc
 */
 
-#include <print>
+#include <print.c>
 
 struct A {
     int i1;

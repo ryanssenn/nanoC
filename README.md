@@ -4,7 +4,7 @@ This is a compiler for a subset of C, built from scratch. It translates C code i
 
 A compiler works in stages: it takes human-readable code, checks that it’s valid, and turns it into low-level instructions the CPU understands. This project implements those steps manually, without relying on existing compiler frameworks.
 
-This project was built to learn how programming languages work, mostly as a toy compiler project. There’s plenty of room for optimization, especially in register allocation and instruction scheduling.
+This project is educational, built to learn how programming languages work, mostly as a toy compiler project. While functional, there's room for optimizations, particularly in register allocation :)
 
 ### Supported C Features
 
@@ -32,6 +32,16 @@ This project was built to learn how programming languages work, mostly as a toy 
 Each stage of the compiler is tested on its own and as part of the full pipeline.
 Lexer tests check that text is split correctly into tokens. Parser tests confirm that valid code produces the right AST and invalid syntax fails cleanly. Semantic tests cover all type and scope rules, using both valid and intentionally broken programs to confirm errors are caught. Code generation is tested by compiling small programs, assembling them, running them, and checking their actual output matches the expected result.
 
+You can run the tests using in the /test directory by running
+
+     ./tester.sh
+
+The test script runs the compiler on each test case (60+) and, for code-generation tests, it assembles the produced assembly with nasm, links it with ld, then runs the resulting x86_64 binary through Rosetta on Apple Silicon
+
+The expected result of each test is displayed in a comment at the top of the file and parsed through grep.
+
+<img src="./test.png" width="30%" height="30%">
+
 ### Running compiler:
 
     ./compiler <file.c>
@@ -45,8 +55,11 @@ Options:
 
 ### Example fibonacci program:
 
+Note: You need to have the print.c utilities file in your include path for the printing utilities to be available.
+The easiest way is to have the `std/print.c` folder in the same path as the compiler
+
 ```
-#include <print>
+#include <std/print.c>
 
 int fibonnaci(int n){
     if (n == 0){
@@ -65,6 +78,8 @@ int main(){
 ```
 
 AST:
+
+    ./compiler fib.c -ast
 
 ```
 Program (

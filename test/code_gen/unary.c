@@ -5,7 +5,7 @@
 0
 1
 */
-#include <print>
+#include <print.c>
 
 int main(){
     print_i(-(-1234));

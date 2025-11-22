@@ -3,7 +3,7 @@
 1256
 */
 
-#include <print>
+#include <print.c>
 
 
 void p(int a, int b, int c, int d, int e, int f, int g, int i){

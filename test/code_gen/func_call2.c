@@ -1,7 +1,7 @@
 /*
 9
 */
-#include <print>
+#include <print.c>
 
 int formula(int x, int y, int z){
     return (x+y)*z;

@@ -2,7 +2,7 @@
 12b12
 */
 
-#include <print>
+#include <print.c>
 
 struct A {
     int i1;

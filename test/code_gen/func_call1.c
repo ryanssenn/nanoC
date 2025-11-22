@@ -3,7 +3,7 @@
 2
 3
 */
-#include <print>
+#include <print.c>
 
 void p(int a){
     print_i(a);
